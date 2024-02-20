@@ -1,3 +1,5 @@
+import 'dart:typed_data';
+
 class HayatoShioya {
   final List<int> _bytes;
 
@@ -50,8 +52,7 @@ class HayatoShioya {
 //1つでも要素が異なる場合は、falseを返します。
 //すべての要素が等しい場合は、trueを返します。
 
-
-@override
+  @override
   String toString() {
     return 'HayatoShioya(length: ${_bytes.length}, bytes: ${_bytes})';
   }
@@ -61,23 +62,25 @@ class HayatoShioya {
 //HayatoShioya オブジェクトをログに出力したい場合
 //HayatoShioya オブジェクトを文字列として保存したい場合
 
-
-extension; HayatoShioyaRedact on HayatoShioya {
-    /// 特定のバイト列をアスタリスクにして伏字にする
-HayatoShioya redact(List<int> pattern) {
-  var regex = RegExp(pattern.map((byte) => String.fromCharCode(byte)).join());
-  return HayatoShioya(regex.replaceAll(toBytes().join(), '*'));
+  /// 特定のバイト列をアスタリスクにして伏字にする
+  HayatoShioya redact(Uint8List pattern) {
+    var regex = RegExp(String.fromCharCodes(pattern));
+    var bytes = toBytes();
+    var buffer = StringBuffer();
+    for (var byte in bytes) {
+      buffer.write(regex.hasMatch(String.fromCharCode(byte)) ? '*' : byte);
+    }
+    return HayatoShioya(buffer.toString() as List<int>);
+  }
 }
-}
-}
-
 
 void main() {
   var hayatoShioya = HayatoShioya([1, 2, 3]);
-  print(hayatoShioya.toString()); // 出力: HayatoShioya(length: 3, bytes: [1, 2, 3])
+  print(
+      hayatoShioya.toString()); // 出力: HayatoShioya(length: 3, bytes: [1, 2, 3])
 
   // 特定のバイト列をアスタリスクにして伏字にする
-  var pattern = [1, 2];
+  var pattern = Uint8List.fromList([1, 2]);
   var redacted = hayatoShioya.redact(pattern);
 
   // 出力: HayatoShioya(length: 1, bytes: [3])
