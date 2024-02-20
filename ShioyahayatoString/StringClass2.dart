@@ -1,15 +1,40 @@
 class HayatoShioya {
-  List<int> _bytes;
+  final List<int> _bytes;
 
-  HayatoShioya(List<int> bytes) {
-    _bytes = bytes;
-  }
+  HayatoShioya(this._bytes);
 
   int get length => _bytes.length;
 
-  List<int> toBytes() {
-    return _bytes;
-  }
+  List<int> toBytes() => _bytes;
 
   // 独自の処理を書かなきゃ動かない
 }
+
+
+
+
+//1. オブジェクトの比較:
+
+//2つのHayatoShioyaオブジェクトが等しいかどうかを判断する機能が必要です。これは、Equals()メソッドを実装することで実現できます。
+
+//2. ハッシュコードの計算:
+
+//HayatoShioyaオブジェクトのハッシュコードを計算する機能が必要です。これは、GetHashCode()メソッドを実装することで実現できます。
+
+//3. 文字列への変換:
+
+//HayatoShioyaオブジェクトを文字列に変換する機能が必要です。これは、ToString()メソッドを実装することで実現できます。
+
+//4. シリアル化とデシリアル化:
+
+//HayatoShioyaオブジェクトをストレージに保存したり、ストレージから読み込んだりするための機能が必要です。これは、Serialize()とDeserialize()メソッドを実装することで実現できます。
+
+//5. その他の処理:
+
+//上記の機能に加えて、以下の処理があると便利です。
+
+//コンストラクタにString型の引数を受け取り、その文字列をバイト列に変換する機能
+//特定のインデックスのバイト値を取得または設定するプロパティ
+//バイト列を検索するメソッド
+//バイト列を別のエンコーディングに変換するメソッド
+//これらの機能を実装することで、HayatoShioyaクラスをより汎用的に使用することができます。
