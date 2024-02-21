@@ -62,8 +62,12 @@ class HayatoShioya {
 //HayatoShioya オブジェクトをログに出力したい場合
 //HayatoShioya オブジェクトを文字列として保存したい場合
 
-  /// 特定のバイト列をアスタリスクにして伏字にする
   HayatoShioya redact(Uint8List pattern) {
+    String str = '伏字化したい文字列';
+
+    // 定義した文字列のコードユニットを取得
+    List<int> list = str.codeUnits;
+    // 文字列のコードユニットを取得
     var regex = RegExp(String.fromCharCodes(pattern));
     var bytes = toBytes();
     var buffer = StringBuffer();
@@ -71,22 +75,23 @@ class HayatoShioya {
       buffer.write(regex.hasMatch(String.fromCharCode(byte)) ? '*' : byte);
     }
     return HayatoShioya(buffer.toString() as List<int>);
+
+//例外が発生しました
+//_TypeError (type 'String' is not a subtype of type 'List<int>' in type cast)
+//↑このエラーがなんで出るんだろう。
+  }
+
+  void main() {
+    var hayatoShioya = HayatoShioya([1, 2, 3]);
+    print(hayatoShioya
+        .toString()); // 出力: HayatoShioya(length: 3, bytes: [1, 2, 3])
+
+    var pattern = Uint8List.fromList([1, 2]);
+    var redacted = hayatoShioya.redact(pattern);
+
+    print(redacted);
   }
 }
-
-void main() {
-  var hayatoShioya = HayatoShioya([1, 2, 3]);
-  print(
-      hayatoShioya.toString()); // 出力: HayatoShioya(length: 3, bytes: [1, 2, 3])
-
-  // 特定のバイト列をアスタリスクにして伏字にする
-  var pattern = Uint8List.fromList([1, 2]);
-  var redacted = hayatoShioya.redact(pattern);
-
-  // 出力: HayatoShioya(length: 1, bytes: [3])
-  print(redacted);
-}
-
 
 //↑このコードの説明
 //これはHayatoShioyaクラスの動作を確認するためのサンプルコード

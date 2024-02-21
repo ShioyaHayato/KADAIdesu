@@ -2,6 +2,7 @@ import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/hayato_shioya.dart';
+import 'package:flutter_application_1/out.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -35,7 +36,16 @@ class _HomePageState extends State<HomePage> {
                 Uint8List pattern = Uint8List.fromList([1, 2]);
                 HayatoShioya redactedText = hayatoShioya.redact(pattern);
 
-                // 伏字化されたテキストを表示
+                // 出力画面を表示
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) =>
+                        OutputPage(redactedText: redactedText),
+                  ),
+                );
+
+                // スナックバーを表示
                 ScaffoldMessenger.of(context).showSnackBar(
                   SnackBar(
                     content: Text(redactedText as String),
